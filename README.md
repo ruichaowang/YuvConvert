@@ -1,75 +1,60 @@
-# Converty - Raw Image Converter
+# Image Utility Tools
 
-A simple command-line tool to convert raw YUV images (UYVY, NV12) into PNG format.
-Designed to support SS2, SS3, and SS4 camera formats easily.
+A collection of Python tools for processing and converting image data, specifically for SS2/SS3/SS4 raw formats and general analysis.
 
-## Features
-
-- **Multi-format support**: Handles `UYVY` and `NV12` raw data.
-- **Project Presets**:
-    - `ss2`: 1920 x 1280 (UYVY)
-    - `ss3`: 1920 x 1536 (UYVY)
-    - `ss4`: 1920 x 1536 (NV12)
-- **Batch Processing**: Can convert a single file or recursively process an entire directory.
-- **Zero Dependencies** (aside from `opencv` and `numpy`).
+## Project Structure
+```text
+.
+├── tools/                 # Python scripts
+│   ├── image_converter.py # Convert Raw YUV -> PNG
+│   ├── compare_images.py  # Compare two batches of images
+│   └── bgr_to_rgb.py      # Swap BGR channels to RGB
+├── data/                  # Test data
+│   ├── raw/               # Raw YUV files (SS2, SS3, SS4)
+│   ├── rgb_test/          # Images for BGR->RGB testing
+│   └── comparison/        # Images for comparison testing
+└── requirements.txt
+```
 
 ## Requirements
+- Python 3
+- `numpy`, `opencv-python`
 
-- Python 3 with `numpy` and `opencv-python`.
-
-## Quick Start
-
-### Installation
-1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   pip3 install -r requirements.txt
-   ```
-
-### Usage
-You can check the help menu at any time:
+Install dependencies:
 ```bash
-python3 converty.py --help
+pip3 install -r requirements.txt
 ```
 
-### 1. Using Presets (Recommended)
-The easiest way is to use the `--type` flag corresponding to your data:
+## Tools
 
-**For SS2:**
+### 1. Image Converter (`image_converter.py`)
+Converts raw YUV images (UYVY, NV12) into PNG format.
+**Previously `converty.py`.**
+
+**Usage:**
 ```bash
-python3 converty.py /path/to/SS2_dir --type ss2
+# Using presets (ss2, ss3, ss4)
+python3 tools/image_converter.py data/raw/SS2_2M --type ss2
+
+# Manual configuration
+python3 tools/image_converter.py input.raw --width 1920 --height 1080 --format nv12
 ```
 
-**For SS3:**
+### 2. Compare Images (`compare_images.py`)
+Compares two batches of images (e.g. from different algorithms) side-by-side, calculating sharpness (Laplacian variance) and detecting corners.
+
+**Usage:**
 ```bash
-python3 converty.py /path/to/SS3_dir --type ss3
+python3 tools/compare_images.py \
+    --batch1 data/comparison/batch1 \
+    --batch2 data/comparison/batch2 \
+    --results data/comparison/results
 ```
 
-**For SS4:**
+### 3. BGR to RGB Converter (`bgr_to_rgb.py`)
+Swaps Blue and Red channels for all PNG files in a directory. Useful if images were saved with wrong channel order.
+
+**Usage:**
 ```bash
-python3 converty.py /path/to/SS4_dir --type ss4
+python3 tools/bgr_to_rgb.py --input_dir data/rgb_test
 ```
-
-### 2. Manual Configuration
-If you have a file with a different resolution or format, you can specify them manually:
-
-```bash
-python3 converty.py input.raw --width 640 --height 480 --format nv12
-```
-
-### 3. Custom Output Directory
-By default, a `png` folder is created inside your input location. You can override this:
-
-```bash
-python3 converty.py input_dir --type ss2 --output /Users/me/Desktop/converted
-```
-
-## Building Standalone Executable
-You can package this script as a standalone executable (no Python required for end users) using PyInstaller:
-
-```bash
-# Build the executable
-pyinstaller --onefile converty.py
-```
-The executable will be generated in `dist/converty`.
-
