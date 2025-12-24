@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Distribution / Build
+build/
+dist/
+*.spec
+
+# OS Generated
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.idea/
+.vscode/
+
+# Output images (optional, if you want to keep repo clean)
+# Assuming users run tests and generate these
+*/png/
+*_test/
+output/

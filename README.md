@@ -18,6 +18,15 @@ Designed to support SS2, SS3, and SS4 camera formats easily.
 - Python 3 with `numpy` and `opencv-python`.
 
 ## Quick Start
+
+### Installation
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+### Usage
 You can check the help menu at any time:
 ```bash
 python3 converty.py --help
@@ -54,6 +63,13 @@ By default, a `png` folder is created inside your input location. You can overri
 ```bash
 python3 converty.py input_dir --type ss2 --output /Users/me/Desktop/converted
 ```
-# yuv_raw_image_convert
-# YuvConvert
-# YuvConvert
+
+## Building Standalone Executable
+You can package this script as a standalone executable (no Python required for end users) using PyInstaller:
+
+```bash
+# Build the executable
+pyinstaller --onefile converty.py
+```
+The executable will be generated in `dist/converty`.
+
